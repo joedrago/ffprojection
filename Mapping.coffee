@@ -41,7 +41,7 @@ class Mapping
       y0 = y0Start
       x1 = x1Start
       y1 = y1Start
-      console.log "testing (#{x0}, #{y0}) -> (#{x1}, #{y1})"
+      # console.log "testing (#{x0}, #{y0}) -> (#{x1}, #{y1})"
       dx = Math.abs(x1 - x0)
       sx = if x0 < x1 then 1 else -1
       dy = Math.abs(y1 - y0)
@@ -118,16 +118,5 @@ class Mapping
     fs.writeFileSync(ymapFilename, ymap)
     fs.writeFileSync(alphaFilename, alpha)
 
-main = ->
-  # Biden
-  m = new Mapping(1280, 720, 640, 360)
-  m.project [
-    74, 218,
-    306, 220,
-    310, 374,
-    88, 420,
-  ]
-  m.write("bidenx4.pgm", "bideny4.pgm", "bidena4.pgm")
-
-main()
+module.exports = Mapping
 
