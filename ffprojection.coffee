@@ -1,7 +1,12 @@
 fs = require 'fs'
 
 class Mapping
-  constructor: (@w, @h) ->
+  constructor: (@w, @h, @vw = 0, @vh = 0) ->
+    # w/h are destination map size, vw/vh are source video size
+    if @vw < 1
+      @vw = @w
+    if @vh < 1
+      @vh = @h
     @total = @w * @h
     @map = new Array(@total)
     for i in [0...@total]
@@ -60,17 +65,17 @@ class Mapping
         y = p[1]
         switch lineIndex
           when 0 # top
-            u = Math.floor((@w - 1) * pointIndex / plast)
+            u = Math.floor((@vw - 1) * pointIndex / plast)
             v = 0
           when 1 # bottom
-            u = Math.floor((@w - 1) * pointIndex / plast)
-            v = @h - 1
+            u = Math.floor((@vw - 1) * pointIndex / plast)
+            v = @vh - 1
           when 2 # left
             u = 0
-            v = Math.floor((@h - 1) * pointIndex / plast)
+            v = Math.floor((@vh - 1) * pointIndex / plast)
           when 3 # right
-            u = @w - 1
-            v = Math.floor((@h - 1) * pointIndex / plast)
+            u = @vw - 1
+            v = Math.floor((@vh - 1) * pointIndex / plast)
         if rows[y].min > x
           rows[y].min = x
           rows[y].minUV = [u, v]
@@ -115,14 +120,14 @@ class Mapping
 
 main = ->
   # Biden
-  m = new Mapping(640, 360)
+  m = new Mapping(1280, 720, 640, 360)
   m.project [
-    37, 109,
-    153, 110,
-    155, 187,
-    44, 210,
+    74, 218,
+    306, 220,
+    310, 374,
+    88, 420,
   ]
-  m.write("bidenx.pgm", "bideny.pgm", "bidena.pgm")
+  m.write("bidenx4.pgm", "bideny4.pgm", "bidena4.pgm")
 
 main()
 
